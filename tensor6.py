@@ -45,12 +45,11 @@ def main():
 
     # Training
     model = tflearn.DNN(network, tensorboard_verbose=0, checkpoint_path='checkpoints/' + name + '.tfl.ckpt')
-    import os.path
-    if os.path.exists('checkpoints/' + name + '.tfl'):
-        model.load('checkpoints/' + name + '.tfl')
+
+    model.load('checkpoints/' + name + '.tfl')
     model.fit({'input': X}, {'target': Y}, n_epoch=12,
               validation_set=({'input': X_test}, {'target': Y_test}),
-              snapshot_step=100, show_metric=True, batch_size=96, run_id='cifar10_cnn')
+              snapshot_step=100, show_metric=True, batch_size=96, run_id='cifar10_cnn6')
 
     # Manually save model
     model.save('checkpoints/' + name + '.tfl')

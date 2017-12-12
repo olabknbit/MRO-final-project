@@ -21,12 +21,11 @@ def get_data():
 def get_network():
     # Building convolutional network
     network = input_data(shape=[None, 32, 32, 3], name='input')
-    network = conv_2d(network, 32, 3, activation='relu', regularizer="L2")
+    network = conv_2d(network, 32, 6, activation='relu', regularizer="L2")
     network = max_pool_2d(network, 2)
-    network = conv_2d(network, 64, 12, activation='relu', regularizer="L2")
+    network = conv_2d(network, 64, 4, activation='relu', regularizer="L2")
     network = max_pool_2d(network, 2)
 
-    network = conv_2d(network, 128, 6, activation='relu', regularizer="L2")
     network = conv_2d(network, 128, 3, activation='relu', regularizer="L2")
     network = max_pool_2d(network, 2)
 
@@ -45,9 +44,7 @@ def main():
 
     # Training
     model = tflearn.DNN(network, tensorboard_verbose=0, checkpoint_path='checkpoints/' + name + '.tfl.ckpt')
-    import os.path
-    if os.path.exists('checkpoints/' + name + '.tfl'):
-        model.load('checkpoints/' + name + '.tfl')
+    model.load('checkpoints/' + name + '.tfl')
     model.fit({'input': X}, {'target': Y}, n_epoch=12,
               validation_set=({'input': X_test}, {'target': Y_test}),
               snapshot_step=100, show_metric=True, batch_size=96, run_id='cifar10_cnn')
